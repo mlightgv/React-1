@@ -50444,20 +50444,15 @@ module.exports = AuthorList;
 var React = require('react');
 var Router = require('react-router');
 var Link = require('react-router').Link;
-var AuthorApi = require('../../api/authorApi');
+var AuthorActions = require('../../actions/authorActions');
+var AuthorStore = require('../../stores/authorStore');
 var AuthorList = require('./authorList');
 
 var AuthorPage = React.createClass({displayName: "AuthorPage",
   getInitialState: function() {
     return {
-      authors: []
+      authors: AuthorStore.getAllAuthors()
     };
-  },
-
-  componentDidMount: function() {
-    if (this.isMounted()) {
-      this.setState({ authors: AuthorApi.getAllAuthors() });
-    }
   },
 
   render: function() {
@@ -50473,7 +50468,7 @@ var AuthorPage = React.createClass({displayName: "AuthorPage",
 
 module.exports = AuthorPage;
 
-},{"../../api/authorApi":205,"./authorList":210,"react":202,"react-router":33}],212:[function(require,module,exports){
+},{"../../actions/authorActions":204,"../../stores/authorStore":221,"./authorList":210,"react":202,"react-router":33}],212:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
