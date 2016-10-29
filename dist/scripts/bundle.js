@@ -50243,6 +50243,16 @@ var AuthorActions = {
       actionType: ActionTypes.UPDATE_AUTHOR,
       author: updatedAuthor
     });
+  },
+
+  deleteAuthor: function(id) {
+    AuthorApi.deleteAuthor(id);
+
+    //Hey dispatcher, go tell all the stores that an author was just created.
+    Dispatcher.dispatch({
+      actionType: ActionTypes.DELETE_AUTHOR,
+      id: id
+    });
   }
 };
 
@@ -50435,16 +50445,25 @@ module.exports = AuthorForm;
 var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
+var AuthorActions = require('../../actions/authorActions');
+var toastr = require('toastr');
 
 var AuthorList = React.createClass({displayName: "AuthorList",
 	propTypes: {
 		authors: React.PropTypes.array.isRequired
 	},
 
+	deleteAuthor: function(id, event) {
+		event.preventDefault();
+		AuthorActions.deleteAuthor(id);
+		toastr.success('Author Deleted');
+	},
+
 	render: function() {
 		var createAuthorRow = function(author) {
 			return (
 				React.createElement("tr", {key: author.id}, 
+					React.createElement("td", null, React.createElement("a", {href: "#", onClick: this.deleteAuthor.bind(this, author.id)}, "Delete")), 
 					React.createElement("td", null, React.createElement(Link, {to: "manageAuthor", params: {id: author.id}}, author.id)), 
 					React.createElement("td", null, author.firstName, " ", author.lastName)
 				)
@@ -50455,6 +50474,7 @@ var AuthorList = React.createClass({displayName: "AuthorList",
 			React.createElement("div", null, 
 				React.createElement("table", {className: "table"}, 
 					React.createElement("thead", null, 
+					  React.createElement("th", null), 
 						React.createElement("th", null, "ID"), 
 						React.createElement("th", null, "Name")
 					), 
@@ -50469,7 +50489,7 @@ var AuthorList = React.createClass({displayName: "AuthorList",
 
 module.exports = AuthorList;
 
-},{"react":202,"react-router":33}],212:[function(require,module,exports){
+},{"../../actions/authorActions":205,"react":202,"react-router":33,"toastr":203}],212:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -50484,6 +50504,18 @@ var AuthorPage = React.createClass({displayName: "AuthorPage",
     return {
       authors: AuthorStore.getAllAuthors()
     };
+  },
+
+  componentWillMount: function() {
+     AuthorStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+     AuthorStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState({ authors: AuthorStore.getAllAuthors() });
   },
 
   render: function() {
@@ -50706,7 +50738,8 @@ var keyMirror = require('react/lib/keyMirror');
 module.exports = keyMirror({
   INITIALIZE: null,
   CREATE_AUTHOR: null,
-  UPDATE_AUTHOR: null
+  UPDATE_AUTHOR: null,
+  DELETE_AUTHOR: null
 });
 
 },{"react/lib/keyMirror":187}],219:[function(require,module,exports){
@@ -50805,6 +50838,12 @@ Dispatcher.register(function(action) {
 			var existingAuthorIndex = _.indexOf(_author, existingAuthor);
 			_authors.splice(existingAuthorIndex, 1, action.author);
       AuthorStore.emitChange();
+			break;
+		case ActionTypes.DELETE_AUTHOR:
+		  _.remove(_authors, function(author) {
+         return action.id === author.id;
+			});
+			AuthorStore.emitChange();
 			break;
 		default:
 		  //no op
