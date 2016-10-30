@@ -36,7 +36,6 @@ var CourseList = React.createClass({
 					<thead>
 						<tr>
 							<th>Actions</th>
-							<th></th>
 							<th>Title</th>
 							<th>Author</th>
 							<th>Category</th>
