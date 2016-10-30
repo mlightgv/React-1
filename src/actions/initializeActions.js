@@ -11,7 +11,7 @@ var InitializeActions = {
       actionType: ActionTypes.INITIALIZE,
       initialData: {
         authors: AuthorApi.getAllAuthors(),
-        courses: AuthorApi.getAllCourses()
+        courses: CourseApi.getAllCourses()
       }
     });
   }

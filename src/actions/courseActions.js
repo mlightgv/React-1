@@ -1,7 +1,7 @@
 "use strict";
 
 var Dispatcher = require('../dispatcher/appDispatcher');
-var CourserApi = require('../api/courseApi');
+var CourseApi = require('../api/courseApi');
 var ActionTypes = require('../constants/actionTypes');
 
 var CourseActions = {
