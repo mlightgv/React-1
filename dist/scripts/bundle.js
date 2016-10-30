@@ -50217,7 +50217,7 @@ var InitializeActions = {
 
 module.exports = InitializeActions;
 
-},{"../api/authorApi":206,"../constants/actionTypes":218,"../dispatcher/appDispatcher":219}],205:[function(require,module,exports){
+},{"../api/authorApi":206,"../constants/actionTypes":220,"../dispatcher/appDispatcher":221}],205:[function(require,module,exports){
 "use strict";
 
 var Dispatcher = require('../dispatcher/appDispatcher');
@@ -50258,7 +50258,7 @@ var AuthorActions = {
 
 module.exports = AuthorActions;
 
-},{"../api/authorApi":206,"../constants/actionTypes":218,"../dispatcher/appDispatcher":219}],206:[function(require,module,exports){
+},{"../api/authorApi":206,"../constants/actionTypes":220,"../dispatcher/appDispatcher":221}],206:[function(require,module,exports){
 "use strict";
 
 //This file is mocking a web API by hitting hard coded data.
@@ -50531,7 +50531,7 @@ var AuthorPage = React.createClass({displayName: "AuthorPage",
 
 module.exports = AuthorPage;
 
-},{"../../actions/authorActions":205,"../../stores/authorStore":222,"./authorList":211,"react":202,"react-router":33}],213:[function(require,module,exports){
+},{"../../actions/authorActions":205,"../../stores/authorStore":224,"./authorList":211,"react":202,"react-router":33}],213:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -50625,7 +50625,7 @@ var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
 
 module.exports = ManageAuthorPage;
 
-},{"../../actions/authorActions":205,"../../stores/authorStore":222,"./authorForm":210,"react":202,"react-router":33,"toastr":203}],214:[function(require,module,exports){
+},{"../../actions/authorActions":205,"../../stores/authorStore":224,"./authorForm":210,"react":202,"react-router":33,"toastr":203}],214:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -50694,6 +50694,43 @@ module.exports = Input;
 
 var React = require('react');
 var Router = require('react-router');
+var Link = require('react-router').Link;
+
+var CoursePage = React.createClass({displayName: "CoursePage",
+
+  render: function() {
+    return (
+          React.createElement("div", null, 
+            React.createElement("h1", null, "Courses"), 
+            React.createElement(Link, {to: "addCourse", className: "btn btn-default"}, "Add Course")
+          )
+        );
+    }
+});
+
+module.exports = CoursePage;
+
+},{"react":202,"react-router":33}],217:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+var Router = require('react-router');
+var toastr = require('toastr');
+
+var ManageCoursePage = React.createClass({displayName: "ManageCoursePage",
+
+	render: function() {
+		return (React.createElement("div", null));
+	}
+});
+
+module.exports = ManageCoursePage;
+
+},{"react":202,"react-router":33,"toastr":203}],218:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+var Router = require('react-router');
 var Link = Router.Link;
 
 var Home = React.createClass({displayName: "Home",
@@ -50710,7 +50747,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home;
 
-},{"react":202,"react-router":33}],217:[function(require,module,exports){
+},{"react":202,"react-router":33}],219:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -50730,7 +50767,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage;
 
-},{"react":202,"react-router":33}],218:[function(require,module,exports){
+},{"react":202,"react-router":33}],220:[function(require,module,exports){
 "use strict";
 
 var keyMirror = require('react/lib/keyMirror');
@@ -50742,12 +50779,12 @@ module.exports = keyMirror({
   DELETE_AUTHOR: null
 });
 
-},{"react/lib/keyMirror":187}],219:[function(require,module,exports){
+},{"react/lib/keyMirror":187}],221:[function(require,module,exports){
 var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":3}],220:[function(require,module,exports){
+},{"flux":3}],222:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -50762,7 +50799,7 @@ Router.run(routes, function(Handler) {
 	React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./actions/InitializeActions":204,"./routes":221,"react":202,"react-router":33}],221:[function(require,module,exports){
+},{"./actions/InitializeActions":204,"./routes":223,"react":202,"react-router":33}],223:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -50776,11 +50813,18 @@ var Redirect = Router.Redirect;
 var routes = (
   React.createElement(Route, {name: "app", path: "/", handler: require('./components/app')}, 
     React.createElement(DefaultRoute, {handler: require('./components/homePage')}), 
+
     React.createElement(Route, {name: "authors", handler: require('./components/authors/authorPage')}), 
     React.createElement(Route, {name: "addAuthor", path: "author", handler: require('./components/authors/manageAuthorPage')}), 
     React.createElement(Route, {name: "manageAuthor", path: "author/:id", handler: require('./components/authors/manageAuthorPage')}), 
-    React.createElement(Route, {name: "about", handler: require('./components/about/aboutPage')}), 
+
+    React.createElement(Route, {name: "courses", handler: require('./components/courses/coursePage')}), 
+    React.createElement(Route, {name: "addCourse", path: "course", handler: require('./components/courses/manageCoursePage')}), 
+    React.createElement(Route, {name: "manageCourse", path: "course/:id", handler: require('./components/courses/manageCoursePage')}), 
+
     React.createElement(NotFoundRoute, {handler: require('./components/notFoundPage')}), 
+
+    React.createElement(Route, {name: "about", handler: require('./components/about/aboutPage')}), 
     React.createElement(Redirect, {from: "about-us", to: "about"}), 
     React.createElement(Redirect, {from: "awthurs", to: "authors"}), 
     React.createElement(Redirect, {from: "about/*", to: "about"})
@@ -50789,7 +50833,7 @@ var routes = (
 
 module.exports = routes;
 
-},{"./components/about/aboutPage":208,"./components/app":209,"./components/authors/authorPage":212,"./components/authors/manageAuthorPage":213,"./components/homePage":216,"./components/notFoundPage":217,"react":202,"react-router":33}],222:[function(require,module,exports){
+},{"./components/about/aboutPage":208,"./components/app":209,"./components/authors/authorPage":212,"./components/authors/manageAuthorPage":213,"./components/courses/coursePage":216,"./components/courses/manageCoursePage":217,"./components/homePage":218,"./components/notFoundPage":219,"react":202,"react-router":33}],224:[function(require,module,exports){
 "use strict";
 
 var Dispatcher = require('../dispatcher/appDispatcher');
@@ -50852,4 +50896,4 @@ Dispatcher.register(function(action) {
 
 module.exports = AuthorStore;
 
-},{"../constants/actionTypes":218,"../dispatcher/appDispatcher":219,"events":1,"lodash":7,"object-assign":8}]},{},[220]);
+},{"../constants/actionTypes":220,"../dispatcher/appDispatcher":221,"events":1,"lodash":7,"object-assign":8}]},{},[222]);
