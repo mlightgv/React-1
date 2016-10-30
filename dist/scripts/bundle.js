@@ -50643,6 +50643,7 @@ var Header = React.createClass({displayName: "Header",
               React.createElement("ul", {className: "nav navbar-nav"}, 
                 React.createElement("li", null, React.createElement(Link, {to: "app"}, "Home")), 
                 React.createElement("li", null, React.createElement(Link, {to: "authors"}, "Authors")), 
+								React.createElement("li", null, React.createElement(Link, {to: "courses"}, "Courses")), 
                 React.createElement("li", null, React.createElement(Link, {to: "about"}, "About"))
               )
           )
