@@ -49,7 +49,7 @@ Dispatcher.register(function(action) {
 			break;
 		case ActionTypes.DELETE_COURSE:
 			_.remove(_courses, function(course) {
-				return action.CourseId === course.id;
+				return action.id === course.id;
 			});
 			CourseStore.emitChange();
 			break;

@@ -29,7 +29,7 @@ var CourseActions = {
 
     Dispatcher.dispatch({
       actionType: ActionTypes.DELETE_COURSE,
-      courseId: id
+      id: id
     });
   }
 };
